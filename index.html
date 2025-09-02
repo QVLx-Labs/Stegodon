@@ -1,0 +1,253 @@
+<!-- $t@$h, QVLx Labs -->
+
+<!doctype html>
+<html lang="en" data-theme="tusk">
+<head>
+  <meta charset="utf-8" />
+  <title>Stegodon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+  <!-- CSP-friendly: no inline CSS/JS -->
+  <link rel="preload" href="style.css" as="style">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header class="site-header">
+    <h1 class="brand">
+      <!-- Stegodon logo: Pixel grid + Wave -->
+      <svg class="logo-stego" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+        <defs>
+          <linearGradient id="sgd-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop class="sgd-s1" offset="0%"/><stop class="sgd-s2" offset="100%"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Rounded container -->
+        <rect x="4" y="4" width="56" height="56" rx="12"
+              fill="none" stroke="currentColor" stroke-width="2" opacity="0.85"/>
+
+        <!-- Top: 3×3 pixel grid -->
+        <g class="pixels" transform="translate(14,10)">
+          <!-- row 1 -->
+          <rect class="px" data-i="0" x="0"  y="0"  width="8" height="8" rx="2" />
+          <rect class="px" data-i="1" x="12" y="0"  width="8" height="8" rx="2" />
+          <rect class="px" data-i="2" x="24" y="0"  width="8" height="8" rx="2" />
+          <!-- row 2 -->
+          <rect class="px" data-i="3" x="0"  y="12" width="8" height="8" rx="2" />
+          <rect class="px" data-i="4" x="12" y="12" width="8" height="8" rx="2" />
+          <rect class="px" data-i="5" x="24" y="12" width="8" height="8" rx="2" />
+          <!-- row 3 -->
+          <rect class="px" data-i="6" x="0"  y="24" width="8" height="8" rx="2" />
+          <rect class="px" data-i="7" x="12" y="24" width="8" height="8" rx="2" />
+          <rect class="px" data-i="8" x="24" y="24" width="8" height="8" rx="2" />
+        </g>
+
+        <!-- Divider -->
+        <line x1="10" y1="34" x2="54" y2="34" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+
+        <!-- Bottom: waveform (dashed stroke glides for subtle “data passing”) -->
+        <path class="wave" d="
+          M 8 46
+          C 12 42, 16 42, 20 46
+          S 28 50, 32 46
+          S 40 42, 44 46
+          S 52 50, 56 46"
+          fill="none" stroke="url(#sgd-grad)" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+
+      <span class="wordmark">Stegodon</span>
+      <span class="domain">By <a href="https://www.qvlx.com">QVLx</a></span>
+    </h1>
+
+    <p class="tag">Embed. Extract. Detect.</p>
+
+    <div class="topbar">
+      <nav class="tabs" aria-label="Sections">
+        <button class="tab is-active" data-tab="embed" aria-controls="embed-panel" aria-selected="true" role="tab">Embed</button>
+        <button class="tab" data-tab="extract" aria-controls="extract-panel" aria-selected="false" role="tab">Extract</button>
+        <button class="tab" data-tab="detect" aria-controls="detect-panel" aria-selected="false" role="tab">Detect</button>
+        <button class="tab" data-tab="help" aria-controls="help-panel" aria-selected="false" role="tab">Help</button>
+      </nav>
+
+      <div class="theme-control">
+        <label for="theme" class="theme-label">Theme</label>
+        <select id="theme" aria-label="Select theme">
+          <option value="auto">Auto (system)</option>
+          <option value="tusk" selected>Tusk (default)</option>
+          <option value="infrared">Infrared</option>
+          <option value="glacier">Glacier</option>
+          <option value="savanna">Savanna</option>
+          <option value="jungle">Jungle</option>
+          <option value="labmono">Lab Mono</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================ EMBED ================ -->
+    <section id="embed-panel" class="panel is-active" role="tabpanel">
+      <form class="embed-form" autocomplete="off">
+        <h2>Embed a message or file inside an image or WAV</h2>
+
+        <div class="row grid-2">
+          <div class="card">
+            <h3>1) Carrier file</h3>
+            <input id="carrier" type="file" accept="image/*,audio/wav" />
+            <p class="hint">
+              Images are exported as <strong>PNG</strong> to preserve exact LSBs. Audio must be <strong>WAV (PCM 8/16-bit)</strong>.
+            </p>
+
+            <div class="grid-2">
+              <div>
+                <label>Bits per channel/sample</label>
+                <select id="lsbCount">
+                  <option value="1" selected>1 (stealthier)</option>
+                  <option value="2">2 (higher capacity)</option>
+                </select>
+              </div>
+              <div id="channelRow">
+                <label>Image channels</label>
+                <div class="row-inline wrap">
+                  <label class="chk"><input type="checkbox" id="chR" checked> R</label>
+                  <label class="chk"><input type="checkbox" id="chG" checked> G</label>
+                  <label class="chk"><input type="checkbox" id="chB" checked> B</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div>
+                <label class="chk"><input type="checkbox" id="randomize"> Randomize payload placement</label>
+              </div>
+              <div>
+                <label class="chk"><input type="checkbox" id="encrypt"> AES-GCM encrypt payload</label>
+              </div>
+            </div>
+
+            <div id="secretRow" class="secret-row">
+              <label for="pass">Passphrase (required if randomize and/or encrypt)</label>
+              <input id="pass" type="password" placeholder="strong passphrase recommended" />
+            </div>
+
+            <div class="capacity">
+              <button type="button" id="analyze" class="ghost">Analyze capacity</button>
+              <output id="capacityOut" class="small"></output>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>2) Payload</h3>
+            <div class="row-inline">
+              <label class="chk"><input type="radio" name="payloadMode" value="text" checked> Text</label>
+              <label class="chk"><input type="radio" name="payloadMode" value="file"> File</label>
+            </div>
+            <textarea id="payloadText" rows="6" placeholder="Type a secret…"></textarea>
+            <input id="payloadFile" type="file" class="hide" />
+            <div class="row buttons">
+              <button type="button" id="embedBtn">Embed & Download</button>
+              <button type="button" id="clearEmbed" class="ghost">Clear</button>
+            </div>
+            <div id="embedWarn" class="warn" role="status" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <div class="row preview grid-2">
+          <div>
+            <h3>Original</h3>
+            <canvas id="canvasOrig" class="preview-canvas" hidden></canvas>
+            <img id="imgOrig" alt="" hidden />
+            <audio id="audioOrig" controls hidden></audio>
+          </div>
+          <div>
+            <h3>Stego output</h3>
+            <canvas id="canvasStego" class="preview-canvas" hidden></canvas>
+            <img id="imgStego" alt="" hidden />
+            <audio id="audioStego" controls hidden></audio>
+            <div class="row">
+              <a id="downloadLink" class="download" href="#" download hidden>Download stego file</a>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- ================ EXTRACT ================ -->
+    <section id="extract-panel" class="panel" role="tabpanel" hidden>
+      <form class="extract-form" autocomplete="off">
+        <h2>Extract from stego image or WAV</h2>
+        <div class="row grid-2">
+          <div class="card">
+            <h3>Stego file</h3>
+            <input id="stegoIn" type="file" accept="image/*,audio/wav" />
+            <label for="pass2">Passphrase (if used)</label>
+            <input id="pass2" type="password" placeholder="needed if randomized and/or encrypted" />
+            <div class="row">
+              <button type="button" id="extractBtn">Extract</button>
+            </div>
+            <div id="extractWarn" class="warn" role="status" aria-live="polite"></div>
+          </div>
+          <div class="card">
+            <h3>Result</h3>
+            <div id="xSummary" class="kvlist"></div>
+            <textarea id="xText" rows="8" readonly class="hide"></textarea>
+            <a id="xFile" class="download hide" href="#" download>Download extracted file</a>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- ================ DETECT ================ -->
+    <section id="detect-panel" class="panel" role="tabpanel" hidden>
+      <form class="detect-form" autocomplete="off">
+        <h2>Detect steganography</h2>
+        <div class="row grid-2">
+          <div class="card">
+            <h3>File to analyze</h3>
+            <input id="detectIn" type="file" accept="image/*,audio/wav" />
+            <div class="row">
+              <button type="button" id="detectBtn" class="ghost">Run analysis</button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Findings</h3>
+            <div id="dSummary" class="kvlist"></div>
+            <div id="bars" class="bars"></div>
+            <p class="hint small">
+              Notes: LSB-based analysis works best on lossless images (PNG/BMP) and PCM WAV. JPEG or heavily edited files may evade or produce noisy results.
+            </p>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- ================ HELP ================ -->
+    <section id="help-panel" class="panel" role="tabpanel" hidden>
+      <article class="help">
+        <h2>How it works</h2>
+        <ul class="ticks">
+          <li><strong>Embed</strong> writes a compact header (magic “SGDN”, version, options, length) then hides bits in image pixels (RGB) or WAV samples. Header is stored sequentially; payload may be randomized (Fisher–Yates over positions via xorshift32) and optionally encrypted (AES-GCM via Web Crypto).</li>
+          <li><strong>Extract</strong> reads the header first; if randomized and/or encrypted were used, provide the same passphrase to reconstruct order and decrypt.</li>
+          <li><strong>Detect</strong> attempts header discovery and runs chi-square even/odd LSB tests, a pairs-of-values heuristic, and per-channel scores.</li>
+          <li>All processing is on-device. No uploads. Source files never leave your browser.</li>
+        </ul>
+        <h3>Best practices</h3>
+        <ul class="ticks">
+          <li>Prefer PNG or BMP carriers. JPEG is lossy and may destroy embedded bits on save.</li>
+          <li>Use 1 bit per channel/sample for subtlety; 2 bits increases capacity but is easier to detect.</li>
+          <li>Encryption protects <em>content</em>; randomization protects <em>placement</em>. Use both for stronger secrecy.</li>
+        </ul>
+        <p class="small muted">Ethics: Only use steganography for lawful, ethical purposes.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Built for a more private web. No tracking, no external requests.</p>
+    <p>Copyright © 2025 QVLX LLC. All rights reserved. </p>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
