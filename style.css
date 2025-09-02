@@ -1,0 +1,292 @@
+/*
+  Stegodon
+
+  Copyright QVLX LLC. All Rights Reserved.
+*/
+
+:root{
+  --bg:#0f0f12; --panel:#16161b; --panel-alpha: rgba(22,22,27,0.96);
+  --ink:#f6f7fb; --muted:#a8acb9;
+  --brand:#ffb347; --brand-2:#ff7e5f;
+  --border:#2a2a33; --chip:#1f1f26;
+  --ring:#ffffff1f; --ok:#57d99d; --warn:#ffd25e; --fail:#ff7a7a;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --round:16px; --shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+/* ===== Stegodon Themes ===== */
+
+/* TUSK — charcoal + amber */
+html[data-theme="tusk"] {
+  --bg:#0e0d0c; --panel:#161411; --panel-alpha: rgba(20,18,15,.92);
+  --ink:#f4efe9; --muted:#a89984;
+  --brand:#ffb347; --brand-2:#ff7e5f;
+  --border:#2a241b; --chip:#191612; --ring:#ffb34733;
+}
+html[data-theme="tusk"] body{
+  background:
+    repeating-linear-gradient(90deg, #0000 0 28px, #ffffff06 28px 29px),
+    radial-gradient(1200px 800px at 10% -10%, rgba(255,179,71,.18), transparent 60%),
+    radial-gradient(900px 700px at 110% 30%, rgba(255,126,95,.14), transparent 55%),
+    linear-gradient(180deg, #0f0e0c 0%, #0c0b0a 100%);
+  background-color: var(--bg);
+}
+
+/* INFRARED — deep red/orange beams */
+html[data-theme="infrared"] {
+  --bg:#0b0607; --panel:#150a0c; --panel-alpha: rgba(21,10,12,.94);
+  --ink:#ffeaea; --muted:#c79a9f;
+  --brand:#ff3b30; --brand-2:#ff9f0a;
+  --border:#2c1517; --chip:#160a0c; --ring:#ff3b302e;
+}
+html[data-theme="infrared"] body{
+  background:
+    conic-gradient(from 220deg at 15% 0%, rgba(255,59,48,.18), transparent 45%),
+    conic-gradient(from 120deg at 85% 10%, rgba(255,159,10,.16), transparent 50%),
+    linear-gradient(180deg, #0b0607 0%, #080406 100%);
+}
+
+/* GLACIER — crisp icy blues */
+@supports (backdrop-filter: blur(8px)) {
+  html[data-theme="glacier"] { --panel-alpha: rgba(8,20,30,.35); }
+}
+html[data-theme="glacier"] {
+  --bg:#071018; --panel:#0b1b25;
+  --ink:#e9fbff; --muted:#9bc3cd;
+  --brand:#36d1ff; --brand-2:#9bffea;
+  --border:#0e2a38; --chip:#0a1922; --ring:#36d1ff2e;
+}
+html[data-theme="glacier"] body{
+  background:
+    radial-gradient(1100px 700px at 10% -10%, rgba(54,209,255,.22), transparent 60%),
+    radial-gradient(900px 650px at 120% 20%, rgba(155,255,234,.18), transparent 55%),
+    linear-gradient(180deg, #071018 0%, #060b12 100%);
+}
+
+/* SAVANNA — warm sand + orange */
+html[data-theme="savanna"] {
+  --bg:#19140c; --panel:#211a0f; --panel-alpha: rgba(33,26,15,.94);
+  --ink:#fff6e6; --muted:#cbb79a;
+  --brand:#ffaf3f; --brand-2:#ff7a21;
+  --border:#2b2315; --chip:#1d170e; --ring:#ffaf3f26;
+}
+html[data-theme="savanna"] body{
+  background:
+    radial-gradient(1000px 700px at 8% -8%, rgba(255,175,63,.20), transparent 60%),
+    linear-gradient(180deg, #1a140d 0%, #120e09 100%);
+}
+
+/* JUNGLE — deep green/teal */
+html[data-theme="jungle"] {
+  --bg:#06100b; --panel:#0c1a14; --panel-alpha: rgba(12,26,20,.94);
+  --ink:#e8fff6; --muted:#99c7b2;
+  --brand:#15e26d; --brand-2:#00d4b3;
+  --border:#0f2a21; --chip:#0a1712; --ring:#15e26d2a;
+}
+html[data-theme="jungle"] body{
+  background:
+    radial-gradient(900px 600px at 100% 0%, rgba(21,226,109,.18), transparent 55%),
+    radial-gradient(900px 650px at 0% 100%, rgba(0,212,179,.14), transparent 55%),
+    linear-gradient(180deg, #06100b 0%, #040a07 100%);
+}
+
+/* LAB MONO — bright, clinical light mode */
+html[data-theme="labmono"] {
+  --bg:#f6f7fb; --panel:#ffffff; --panel-alpha: rgba(255,255,255,.98);
+  --ink:#15161a; --muted:#5b6475;
+  --brand:#0066ff; --brand-2:#21c29e;
+  --border:#e5e7ef; --chip:#eef0f7; --ring:#0066ff1a;
+}
+html[data-theme="labmono"] body{
+  background:
+    radial-gradient(1200px 800px at 0% 0%, #ffffff, transparent 50%),
+    linear-gradient(180deg, #f6f7fb 0%, #f2f4fa 100%);
+}
+
+/* AUTO honors system */
+@media (prefers-color-scheme: light) {
+  html[data-theme="auto"] {
+    --bg:#f6f7fb; --panel:#ffffff; --panel-alpha: rgba(255,255,255,.98);
+    --ink:#15161a; --muted:#5b6475; --brand:#0066ff; --brand-2:#21c29e;
+    --border:#e5e7ef; --chip:#eef0f7; --ring:#0066ff1a;
+  }
+  html[data-theme="auto"] body{
+    background:
+      radial-gradient(1200px 800px at 0% 0%, #ffffff, transparent 50%),
+      linear-gradient(180deg, #f6f7fb 0%, #f2f4fa 100%);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  html[data-theme="auto"] {
+    --bg:#0e0d0c; --panel:#161411; --panel-alpha: rgba(20,18,15,.92);
+    --ink:#f4efe9; --muted:#a89984; --brand:#ffb347; --brand-2:#ff7e5f;
+    --border:#2a241b; --chip:#191612; --ring:#ffb34733;
+  }
+  html[data-theme="auto"] body{
+    background:
+      repeating-linear-gradient(90deg, #0000 0 28px, #ffffff06 28px 29px),
+      radial-gradient(1200px 800px at 10% -10%, rgba(255,179,71,.18), transparent 60%),
+      radial-gradient(900px 700px at 110% 30%, rgba(255,126,95,.14), transparent 55%),
+      linear-gradient(180deg, #0f0e0c 0%, #0c0b0a 100%);
+  }
+}
+
+/* ===== Global layout ===== */
+*{box-sizing:border-box}
+html,body{margin:0; padding:0; color:var(--ink); font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+h1,h2,h3{margin:0 0 8px}
+a{color:inherit}
+
+.site-header{padding:28px 16px 8px; text-align:center}
+.brand{display:inline-flex; align-items:center; gap:12px}
+
+/* ===== Logo (Pixel + Wave) ===== */
+.logo-stego{
+  width:1.9em; height:1.9em;
+  color:var(--brand);
+  filter: drop-shadow(0 1px 6px var(--ring));
+}
+.logo-stego .sgd-s1{ stop-color: var(--brand); }
+.logo-stego .sgd-s2{ stop-color: var(--brand-2); }
+
+/* Pixel base + animated hot state */
+.logo-stego .px{ fill: currentColor; opacity: .55; transition: opacity .25s, transform .25s; }
+.logo-stego .px.hot{ fill: url(#sgd-grad); opacity: 1; animation: px-blink 3.2s ease-in-out infinite; animation-delay: var(--d, 0s); }
+
+@keyframes px-blink{
+  0%, 70%, 100% { opacity: 1; transform: scale(1); }
+  80%           { opacity: .65; transform: scale(.92); }
+}
+
+/* Wave dash glide */
+.logo-stego .wave{
+  stroke-dasharray: 14 6;
+  animation: wave-glide 2.4s linear infinite;
+}
+@keyframes wave-glide{
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -20; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .logo-stego .px.hot, .logo-stego .wave{ animation: none; }
+}
+
+.wordmark{font-size:clamp(22px,5vw,36px); font-weight:800; letter-spacing:.2px}
+.domain{font-size:14px; color:var(--muted); background:var(--chip); border:1px solid var(--border); border-radius:999px; padding:2px 8px}
+.tag{color:var(--muted); margin-top:4px}
+
+.topbar{max-width:1100px; margin:16px auto 0; display:flex; gap:12px; justify-content:space-between; align-items:center; padding:0 12px}
+.tabs{display:flex; gap:8px; flex-wrap:wrap}
+.tab{background:var(--chip); border:1px solid var(--border); color:var(--ink); padding:10px 14px; border-radius:999px; cursor:pointer; box-shadow:inset 0 0 0 1px var(--ring)}
+.tab.is-active{background:linear-gradient(90deg,var(--brand),var(--brand-2)); color:#0a0a0d; font-weight:700; box-shadow:0 0 0 3px var(--ring)}
+.theme-control{display:flex; align-items:center; gap:8px}
+.theme-label{color:var(--muted); font-size:13px}
+.theme-control select{background:#111117; color:var(--ink); border:1px solid var(--border); border-radius:12px; padding:10px 12px; font-size:15px; min-width:180px}
+html[data-theme="labmono"] .theme-control select{ background:#fff; }
+
+main{max-width:1100px; margin:20px auto; padding:0 12px}
+.panel{
+  display:none;
+  background: linear-gradient(180deg, var(--panel-alpha), var(--panel-alpha));
+  border:1px solid var(--border); border-radius:var(--round); padding:18px; box-shadow: var(--shadow);
+  backdrop-filter: saturate(120%) blur(6px);
+}
+.panel.is-active{display:block}
+
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+@media (max-width:960px){ .grid-2{grid-template-columns:1fr} }
+
+.row{margin:12px 0}
+.row-inline{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+.row-inline > *{flex:0 0 auto} /* prevent full-width children in inline rows */
+.hide{display:none}
+.card{background:#0f0f15; border:1px solid var(--border); border-radius:12px; padding:14px}
+html[data-theme="labmono"] .card{ background:#fff; }
+
+label{display:block; color:var(--muted); font-size:13px; margin-bottom:6px}
+
+/* ---- Form controls (mobile-safe, no overlaps) ---- */
+input, select, textarea, button{
+  background:#111117; color:var(--ink);
+  border:1px solid var(--border); border-radius:12px; font-size:15px;
+  padding:10px 12px;
+}
+html[data-theme="labmono"] input, html[data-theme="labmono"] select { background:#fff; }
+
+/* Only *textual* controls expand to full width */
+input[type="text"], input[type="password"], input[type="number"],
+input[type="search"], input[type="url"], input[type="email"],
+input[type="file"], select, textarea { width:100%; }
+
+/* Radios/checkboxes should NOT expand */
+input[type="checkbox"], input[type="radio"]{ width:auto; padding:0; }
+
+/* File input button styling (prevents Safari overlap/quirks) */
+input[type="file"]{ background:var(--chip); }
+input[type="file"]::file-selector-button{
+  margin-right:10px; border:1px solid var(--border); border-radius:10px;
+  padding:8px 12px; background:linear-gradient(90deg,var(--brand),var(--brand-2));
+  color:#0b0b0e; font-weight:700; cursor:pointer;
+}
+
+/* Extra spacing so toggling between text/file never overlaps */
+#payloadText, #payloadFile{ margin-top:6px; }
+
+textarea{resize:vertical}
+button{cursor:pointer; background:linear-gradient(90deg,var(--brand),var(--brand-2)); color:#0b0b0e; font-weight:700; border:none}
+button.ghost{background:var(--chip); color:var(--ink)}
+.buttons{display:flex; gap:8px}
+.buttons button{flex:1 1 0} /* equal buttons without forcing full-width */
+
+.chk{display:inline-flex; gap:8px; align-items:center; user-select:none}
+.chk input{margin-right:2px}
+.hint{color:var(--muted); font-size:13px}
+.small{font-size:12px}
+.muted{color:var(--muted)}
+.secret-row{margin-top:6px}
+.capacity{display:flex; gap:10px; align-items:center; margin-top:8px}
+.warn{margin-top:8px; color:#111; background:linear-gradient(90deg,#ffd25e,#ffef9f); border-radius:10px; padding:8px 12px; display:none}
+.warn.show{display:block}
+.preview-canvas{width:100%; height:auto; border:1px dashed var(--border); border-radius:10px; background:#0b0b10}
+.download{display:inline-block; background:linear-gradient(90deg,var(--brand),var(--brand-2)); color:#0b0b0e; font-weight:800; padding:10px 14px; border-radius:10px; text-decoration:none}
+
+.kvlist{display:grid; gap:8px}
+.kv{display:flex; gap:10px; align-items:center; padding:8px 10px; border:1px solid var(--border); border-radius:10px; background:#101018}
+.k{color:var(--muted); width:180px}
+.v{flex:1; overflow:auto; font-family:var(--mono)}
+
+.bars{display:grid; gap:10px; margin-top:8px}
+.bar{display:grid; gap:6px}
+.bar .label{display:flex; justify-content:space-between; color:var(--muted); font-size:13px}
+.bar .track{height:10px; background:#0c0c12; border:1px solid var(--border); border-radius:999px; overflow:hidden}
+.bar .fill{height:100%; background:linear-gradient(90deg,var(--brand),var(--brand-2))}
+
+.site-footer{max-width:1100px; margin:20px auto 40px; color:var(--muted); text-align:center}
+
+/* Prevent cramped controls on smaller viewports */
+.grid-2{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap:14px;
+}
+@media (max-width: 960px){
+  .grid-2{ grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); }
+}
+
+/* Let inline rows wrap instead of overlapping */
+.row-inline{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+
+/* Grid items may shrink without overflowing content */
+.card{ min-width: 0; }
+.grid-2 > .card{ min-width: 0; }
+
+/* Ensure form controls never exceed container width */
+input, select, textarea, button{ max-width:100%; }
+
+/* Slight extra breathing room for file inputs under headings */
+h3 + input[type="file"]{ margin-top:8px; }
+
+/* Make button rows wrap on narrow screens */
+.buttons{ display:flex; gap:8px; flex-wrap:wrap; }
